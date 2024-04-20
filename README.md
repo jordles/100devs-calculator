@@ -1,5 +1,5 @@
 # 🔢 #100Devs Push Project001: Calculator
-Jordles - Submission Link - https://jordles.github.io/100devs-calculator/{:target="_blank"}  
+Jordles - [Submission Link](https://jordles.github.io/100devs-calculator/){:target="_blank"}  
 ### Goal: Build a Simple Calculator using JS OOP best practices
 
 ### What it should look like:
