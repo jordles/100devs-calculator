@@ -1,0 +1,1233 @@
+/* -------------------------------------------------------------------------- */
+/*                                     CSS                                    */
+/* -------------------------------------------------------------------------- */
+
+
+@use 'sass:color'; 
+
+:root {
+  --space-color: #0f2437;
+  --light-earth-water-color: #92c7f3/* #2276bc */;
+  --light-earth-land-color: #c0f6cd/* #65c547 */;
+  --earth-water-color: #2276bc;
+  --earth-land-color: #65c547;
+  --earth-cloud-color: #FFF;
+  --earth-rotation: 20000ms;
+  --cloud-rotation: 30000ms;
+  
+  --moon-color: #e6e8d2;
+}
+
+::-webkit-scrollbar { /*chrome and safari*/
+  width: 0px;
+}
+::-moz-scrollbar { /*firefox*/
+  width: 0px;
+}
+::-ms-scrollbar{ /*ie and microsoft edge*/
+  width: 0px;
+}
+/* Box Model Hack */
+*{
+    box-sizing: border-box;
+    font-family: "Gotham Rounded", sans-serif;
+    /* Add the missing quotes */
+}
+/******************************************
+/* LAYOUT
+/*******************************************/
+img{
+  display: block;
+  margin: 0 auto;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+  background: rgb(36, 35, 35)/* rgb(82, 81, 81) *//* linear-gradient(to right, #00AAFF, #00FF6C); */;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+body.light{
+  background: white;
+}
+
+button{
+  width: 100%;
+  height: 100%;
+}
+hr {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 4px;
+  background: black;
+  border-style:initial;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+a{
+  text-decoration: none;
+  color: white;
+}
+
+body.light a{
+  color: black;
+}
+footer{
+  text-align: center;
+  margin: 1% 0;
+  color: white;
+}
+body.light footer{
+  color: black;
+}
+/******************************************
+/* ADDITIONAL STYLES
+/*******************************************/
+$calculator-colors: (
+  'red': rgb(252, 65, 65),
+  'blue': rgb(65, 65, 252),
+  'green': rgb(65, 252, 65),
+  'yellow': rgb(252, 252, 65),
+  'purple': rgb(252, 65, 252),
+  'orange': rgb(252, 148, 65),
+);
+
+$backlit-colors: (
+  'red': #d94e4e,
+  'blue': #4ec9d9,
+  'green': #4ec95e,
+  'yellow': #d9d14e,
+  'purple': #d94ec9,
+  'orange': #d9a14e
+);
+
+@mixin color-calculator{
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  mix-blend-mode: multiply;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  @content;
+}
+
+@mixin button-styles($light-mode: false){
+  cursor: pointer;
+  font-size: 2rem;
+  border: 1px solid black;
+  outline: none;
+  background: linear-gradient(180deg, #282828, #202020);
+  box-shadow: inset -8px 0 8px rgba(0,0,0,0.15),    
+  inset 0 -8px 8px rgba(0,0,0,0.25),    
+  0 0 0 2px rgba(0,0,0, 0.75),     
+  10px 20px 25px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  transition: 0.2s all;
+  -webkit-transition: 0.2s all;
+  -moz-transition: 0.2s all;
+  -ms-transition: 0.2s all;
+  -o-transition: 0.2s all;
+
+  @if $light-mode{
+    border: white;
+    background: linear-gradient(180deg, #fafafa, #e4e3e3);
+    /* box-shadow: inset -8px 0 8px rgba(0,0,0,0.15), //old design - flat glass-like effect
+    inset 0 -8px 8px rgba(255,255,255,0.15),
+    0 0 0 2px rgba(255, 255, 255,1), 
+    10px 20px 25px rgba(255,255,255,0.25); */
+    
+    box-shadow: inset -8px 0 16px rgba(0,0,0,0.15),    
+    inset 0 -8px 8px rgba(255,255,255,0.50),    
+    /* 0 0 0 2px rgba(0,0,0, 0.75), */     
+    /* 10px 20px 25px rgba(255, 255, 255,0.4); */
+  }
+}
+
+@mixin button-before-styles($light-mode: false){
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  bottom: 3px;
+  right: 4px;
+  background: linear-gradient(90deg, #232323, #4a4a4a);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  box-shadow: 
+  -4px -4px 3px rgba(255, 255, 255, 0.25);
+  border-left: 1px solid #0004;
+  border-bottom: 1px solid #0004;
+  border-top: 1px solid #0009;
+  z-index: 1;
+
+  @if $light-mode{
+    background: linear-gradient(90deg, #f3f3f3, #efefef);
+    /* box-shadow: -4px -4px 3px rgba(0, 0, 0, 0.25); */
+    box-shadow: -4px -4px 3px rgba(255,255,255, 0.25);
+    border-left: 1px solid #fff4;
+    border-bottom: 1px solid #fff4;
+    border-top: 1px solid #fff9;
+  }
+}
+.calculator{
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  padding: 1%;
+  background: linear-gradient(180deg, #282828, #202020);
+  box-shadow: -8px 0 8px rgba(0, 0, 0, 0.15),  
+  0 -8px 8px rgba(0,0,0,0.25),  
+  0 0 0 2px rgba(0,0,0, 0.75), 
+  10px 20px 25px rgba(0,0,0,0.4);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border: solid black;
+  border-top: solid rgba(255, 255, 255, 0.25);
+  border-left: solid rgba(255, 255, 255, 0.25);
+  margin: auto;
+  .output {
+    grid-column: 1 / -1;
+    background-color: rgba(0,0,0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    padding: 0 1.5%;
+    z-index: 100;
+
+    .prev-operand {
+      color: rgba(255,255,255, .75);
+      font-size: 1.5rem;
+    }
+
+    .current-operand {
+      color: white;
+      font-size: 2.5rem;
+    }
+  }
+
+  .backlit-image {
+    z-index: 1001;
+    position: relative;
+  }
+  
+  svg path:nth-child(2){
+    fill: white;
+  }
+  button{
+    @include button-styles;
+    padding-top: 3px;
+    i{
+      position: relative;
+      color: #fff; 
+      z-index: 100; 
+    }
+  }
+  
+  &.raised button i{
+    position: absolute;
+    top: 10px;
+    left: 16px;
+  }
+
+  &.raised #backlit-image{
+    top: -5px;
+    left: 5px;
+  }
+
+  button::before{
+    @include button-before-styles;
+  }
+
+  &.raised button::before{
+    bottom: 14px;
+    right: 12px;
+  }
+
+  &::before, button::after{
+    @include color-calculator;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  button:active{
+    transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -moz-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    -o-transform: scale(0.95);
+}
+  button:active::before/* , body .calculator-grid button:active::before */ /* body .calculator-grid button:active */{
+    box-shadow: none;
+  }
+
+  @each $color-name, $color in $calculator-colors{
+    &.#{$color-name}::before, &.#{$color-name} button::after{
+      background-color: $color;
+    }
+  }
+  
+}
+
+.calculator.light{
+  /* background: linear-gradient(180deg, #d7d7d7, #dfdfdf); */
+  background: linear-gradient(180deg, #fafafa, #fafafa);
+  box-shadow: -8px 0 8px rgba(0, 0, 0, 0.25),  
+  0 -8px 8px rgba(0,0,0,0.25),  
+  0 0 0 2px rgba(255, 255, 255, 0.15), 
+  10px 20px 25px rgba(0,0,0,0.4);
+  box-shadow: -8px 0 8px rgba(0, 0, 0, 0.15),  
+  0 -8px 8px rgba(0,0,0,0.25),  
+  /* 0 0 0 2px rgba(255,255,255, 0.75),  */
+  10px 20px 25px rgba(0,0,0,0.4);
+  border: solid white;
+  border-top: solid rgba(255, 255, 255, 0.75);
+  border-left: solid rgba(255, 255, 255, 0.75);
+
+  .output {
+    background-color: rgba(255,255,255, 0.5);
+
+    .prev-operand {
+      color: rgba(0,0,0, .75);
+    }
+
+    .current-operand {
+      color: black;
+    }
+  }
+  svg path:nth-child(2){
+    fill: black;
+  }
+  button{
+    @include button-styles($light-mode: true);
+
+    i{
+      color: black;
+    }
+  }
+
+  button::before{
+    @include button-before-styles($light-mode: true);
+  }
+
+  &.raised button::before{
+    bottom: 16px;
+    right: 14px;
+  }
+  @each $color-name, $color in $calculator-colors{
+    &.#{$color-name}::before, &.#{$color-name} button::after{
+      background-color: color.scale($color, $alpha: -45%);
+      mix-blend-mode: hard-light;
+    }
+  }
+}
+
+.calculator-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: minmax(120px, auto) repeat(6, 100px);
+  justify-content: center;
+  align-content: center;
+  gap: 10px;
+  width: fit-content;
+
+  & > :first-child{
+    margin-bottom: 15px;
+  }
+  /* &.backlit-switch{
+    .backlit-color{
+      box-shadow:0 0 9px 6px white;
+    }
+  } */
+  .backlit-color{
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    z-index: 1;
+    box-shadow: 0 0 9px 6px rgba(0, 0, 0, 0);
+  }
+  /* .backlit-color::before{ //experimental
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    z-index: 1;
+    box-shadow: 0 0 9px 6px rgba(0, 0, 0, 0);
+  } */
+  
+}
+/* .calculator.light .backlit-color::before{
+    content: "";
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+} */
+
+.span-two{
+  grid-column: span 2;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                           TOGGLE DARK/LIGHT MODE                           */
+/* -------------------------------------------------------------------------- */
+.wrapper{
+  position: absolute;
+  height: 50px;
+  top: 40px;
+  right: 40px;
+  transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -webkit-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -moz-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -ms-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -o-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  /*transform: scale(1.5);
+  transform-origin: top right;
+  */;
+}
+.wrapper *{
+  box-sizing: unset !important;
+}
+
+/////////////////////////////////////////////////
+// Mixins
+/////////////////////////////////////////////////
+@mixin crater($top, $left, $size) {
+  content: '';
+  position: absolute;
+  top: $top;
+  left: $left;
+  width: $size;
+  height: $size;
+  background-color: #EFEEDA;
+  border-radius: 100%;
+  border: 4px solid #DEE1C5;
+}
+
+@mixin cloudBubble($top, $right, $width, $height, $deg) {
+  content: '';
+  display: block;
+  position: relative;
+  top: $top;
+  right: $right;
+  width: $width;
+  height: $height;
+  border: 8px solid #D4D4D2;
+  border-radius: 100%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotateZ($deg);
+  background-color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  DAY STATE                                 */
+/* -------------------------------------------------------------------------- */
+
+.toggle {
+  position: relative;
+  /* display: inline-block; */
+  width: 100px;
+  height: 100%;
+  /* height: 100px; */
+  /* margin-left: 100px; */
+  padding: 10px;  
+  border-radius: 40px;
+  /* transform: scale(1.5); */
+}
+
+.toggle:before,
+.toggle:after {
+  content: '';
+  display: table;
+}
+
+.toggle:after {
+  clear: both;
+}
+
+.toggle-bg {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 100%;
+  height: 100%;
+  background-color: #C0E6F6;
+  border-radius: 40px;
+  border: 4px solid #81C0D5;
+  transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -webkit-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -moz-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -ms-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -o-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  overflow: hidden;
+}
+
+.toggle-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;  
+  height: 50px;
+  border: 1px solid red;
+  border-radius: 40px;
+  z-index: 2;
+  opacity: 0;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-left: 50px;
+  background-color: #F5EB42;
+  border: 4px solid #E4C74D;
+  border-radius: 50%;
+  transition: all .1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+}
+
+.toggle-switch-figure {  
+  position: absolute;
+  bottom: -14px;
+  left: -50px;
+  display: block;
+  width: 80px;
+  height: 30px;
+  border: 8px solid #D4D4D2;
+  border-radius: 20px;  
+  background-color: #fff;
+  transform: scale(0.4);
+  transition: all .12s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  &:after {
+    @include cloudBubble(-65px, -42px, 15px, 15px, 70deg);
+  }
+  &:before {
+    @include cloudBubble(-25px, -10px, 30px, 30px, 30deg);
+  }
+}
+
+.toggle-switch-figureAlt {
+  @include crater(5px, 2px, 2px);
+  
+  box-shadow: 
+    42px -7px 0 -3px #FCFCFC,
+    75px -10px 0 -3px #FCFCFC,
+    54px 4px 0 -4px #FCFCFC,
+    83px 7px 0 -2px #FCFCFC,
+    63px 18px 0 -4px #FCFCFC,
+    44px 28px 0 -2px #FCFCFC,
+    78px 23px 0 -3px #FCFCFC;
+  
+  transition: all .12s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  transform: scale(0);
+}
+
+.toggle-switch-figureAlt:before {
+  @include crater(-6px, 18px, 7px);
+}
+
+.toggle-switch-figureAlt:after {
+  @include crater(19px, 15px, 2px);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 NIGHT STATE                                */
+/* -------------------------------------------------------------------------- */
+.toggle-input:checked ~ .toggle-switch {
+  margin-left: 0;
+  border-color: #DEE1C5;
+  background-color: #FFFDF2;
+}
+
+.toggle-input:checked ~ .toggle-bg {
+  background-color: #484848;
+  border-color: #202020;
+  
+}
+
+.toggle-input:checked ~ .toggle-switch .toggle-switch-figure {
+  margin-left: 40px;
+  opacity: 0;
+  transform: scale(0.1);
+}
+
+.toggle-input:checked ~ .toggle-switch .toggle-switch-figureAlt {
+  transform: scale(1);
+}
+/* -------------------------------------------------------------------------- */
+/*                                    EARTH                                   */
+/* -------------------------------------------------------------------------- */
+.earth {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: var(--earth-water-color);
+  top: 25px;
+  right: 49px;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  z-index: 10;
+  border: 9px solid #143779;
+  transform: scale(0.5);
+  -ms-transform: scale(0.5);
+  -o-transform: scale(0.5);
+  -webkit-transform: scale(0.5);
+  -moz-transform: scale(0.5);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+body.light .earth{
+  background-color: var(--light-earth-water-color);
+  border: 9px solid #77aada;
+}
+.land {
+  position: absolute;
+  background-color: var(--earth-land-color);
+  border-radius: 20px;
+  border: 8px solid #0e5e1f;
+}
+body.light .land{
+    background-color: var(--light-earth-land-color);
+    border: 8px solid #81d58f;
+}
+.land-big {
+  position: absolute;
+  background-color: var(--light-earth-land-color);
+  border-radius: 16px;
+}
+
+.land-join {
+  position: absolute;
+  background-color: var(--earth-land-color);
+  height: 20px;
+  width: 30px;
+  z-index: 1000;
+}
+body.light .land-join{
+  background-color: var(--light-earth-land-color);
+}
+
+
+/* .land-join::before { //doesnt look as good when scaled smaller
+  content: '';
+  position: absolute;
+  left: -5px;
+  height: 9.5px;
+  width: 10px;
+  border-radius: 50%;
+  border: 5px solid #81d58f;
+  border-left: transparent;
+  border-bottom: transparent;
+  background: var(--earth-water-color);
+  transform: rotate(25deg);
+}
+.land-join::after {
+  content: '';
+  position: absolute;
+  left: 25px;
+  height: 9.5px;
+  width: 10px;
+  border-radius: 50%;
+  border: 5px solid #81d58f;
+  border-right: transparent;
+  border-bottom: transparent;
+  background: var(--earth-water-color);
+  transform: rotate(-25deg);
+} */
+
+/* Animate the land */
+
+@keyframes earth-rotation-a-start {
+  0% {
+    transform: translate(0px);
+  }
+  100% {
+    transform: translate(250px);
+  }
+}
+
+@keyframes earth-rotation-a-loop {
+  0% {
+    transform: translate(-200px);
+  }
+  
+  100% {
+    transform: translate(250px);
+  }
+}
+
+@keyframes earth-rotation-ce-start {
+  0% {
+    transform: translate(0px);
+  }
+ 
+  100% {
+    transform: translate(150px);
+  }
+}
+
+@keyframes earth-rotation-ce-loop {
+  0% {
+    transform: translate(-350px);
+  }
+ 
+  100% {
+    transform: translate(100px);
+  }
+}
+
+/* Animate the cloud */
+
+@keyframes earth-rotation-cla-start {
+  0% {
+    transform: translate(0px);
+  }
+  100% {
+    transform: translate(250px);
+  }
+}
+
+@keyframes earth-rotation-cla-loop {
+  0% {
+    transform: translate(-150px);
+  }
+  
+  100% {
+    transform: translate(250px);
+  }
+}
+
+@keyframes earth-rotation-cle-start {
+  0% {
+    transform: translate(0px);
+  }
+  100% {
+    transform: translate(100px);
+  }
+}
+
+@keyframes earth-rotation-cle-loop {
+  0% {
+    transform: translate(-200px);
+  }
+  
+  100% {
+    transform: translate(150px);
+  }
+}
+
+/*  Big land NA */
+
+.land-big.na {
+  top: 30px;
+  left: -30px;
+  animation-name: earth-rotation-a-start, earth-rotation-a-loop;
+  animation-duration: 13000ms, var(--earth-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 13000ms;
+  animation-iteration-count: 1, infinite;
+  
+}
+
+.land-big.na > .land-join {
+  top: 25px;
+  left: 37px;
+}
+
+.na > .l-1 {
+  left: -30px;
+  height: 25px;
+  width: 130px;
+}
+
+.na > .l-2 {
+  top: 35px;
+  height: 35px;
+  width: 80px;
+}
+
+/* Big land SA */
+
+.land-big.sa {
+  top: 120px;
+  animation-name: earth-rotation-a-start, earth-rotation-a-loop;
+  animation-duration: 13000ms, var(--earth-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 13000ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.land-big.sa > .land-join {
+  top: 25px;
+  left: 20px;
+}
+
+.sa > .l-1 {
+  height: 25px;
+  width: 80px;
+}
+
+.sa > .l-2 {
+  top: 35px;
+  height: 20px;
+  width: 110px;
+}
+
+/* Big land A */
+
+.land-big.a {
+  top: 100px;
+  left: 109px;
+  animation-name: earth-rotation-ce-start, earth-rotation-ce-loop;
+  animation-duration: 8000ms, var(--earth-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 5200ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.land-big.a > .land-join {
+  top: 35px;
+  left: 45px;
+}
+
+.a > .l-1 {
+  height: 35px;
+  width: 90px;
+}
+
+.a > .l-2 {
+  top: 45px;
+  left: 35px;
+  height: 20px;
+  width: 50px;
+}
+
+/* Big land CE */
+
+.land-big.ce {
+  top: 50px;
+  left: 100px;
+  animation-name: earth-rotation-ce-start, earth-rotation-ce-loop;
+  animation-duration: 8000ms, var(--earth-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 5200ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.land-big.ce > .land-join {
+  top: 40px;
+  left: 135px;
+}
+
+.land-big.ce > .land-join.j-2 {
+  top: -10px;
+  left: 105px;
+}
+
+.ce > .l-1 {
+  height: 40px;
+  width: 185px;
+}
+
+.ce > .l-2 {
+  top: 50px;
+  left: 120px;
+  height: 30px;
+  width: 90px;
+}
+
+.ce > .l-3 {
+  top: -30px;
+  left: 90px;
+  height: 20px;
+  width: 80px;
+}
+
+/* Set of smaller lands */
+
+.land.ne {
+  top: 25px;
+  left: 95px;
+  height: 15px;
+  width: 40px;
+  animation-name: earth-rotation-ce-start, earth-rotation-ce-loop;
+  animation-duration: 8000ms, var(--earth-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 5200ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.land.au {
+  top: 140px;
+  left: 270px;
+  height: 30px;
+  width: 60px;
+  animation-name: earth-rotation-ce-start, earth-rotation-ce-loop;
+  animation-duration: 8000ms, var(--earth-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 5200ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.land.np{
+  background-color: #d0e2ee;
+  height: 15px;
+  width: 80px;
+  top: -3px;
+  left: 60px;
+}
+
+.land.sp{
+  background-color: #d0e2ee;
+  height: 15px;
+  width: 100px;
+  top: 190px;
+  left: 50px;
+}
+.land.np, .land.sp{
+  border: 8px solid #8f8e8e;
+}
+body.light .land.np, body.light .land.sp{
+  background-color: #d0e2ee;
+  border: 8px solid #d4d4d4;
+}
+
+/* Set of cloud */
+.cloud {
+  position: absolute;
+  background-color: var(--earth-cloud-color);
+  border-radius: 20px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+  border: 8px solid #70706f;
+}
+body.light .cloud{
+  border: 8px solid #D4D4D2;
+}
+.cloud.c1, .cloud.c2, .cloud.c3, .cloud.c4  {
+  height: 13px;
+  width: 30px;
+}
+
+.cloud.c5, .cloud.c6 {
+  height: 22px;
+  width: 63px;
+}
+
+.cloud.c7, .cloud.c8  {
+  height: 22px;
+  width: 63px;
+}
+
+.cloud.c1 {
+  top: 35px;
+}
+
+.cloud.c2 {
+  top: 85px;
+  left: -50px;
+}
+
+.cloud.c3 {
+  top: 100px;
+  left: 120px;
+}
+
+.cloud.c4 {
+  top: 150px;
+  left: 160px;
+}
+
+.cloud.c5 {
+  top: 45px;
+  left: 10px;
+}
+
+.cloud.c6 {
+  top: 115px;
+  left: -30px;
+}
+
+.cloud.c7 {
+  top: 30px;
+  left: 120px;
+}
+
+.cloud.c8 {
+  top: 160px;
+  left: 160px;
+}
+
+.cloud.c1, .cloud.c2 {
+  animation-name: earth-rotation-cla-start, earth-rotation-cla-loop;
+  animation-duration: 28000ms, var(--cloud-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 28000ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.cloud.c3, .cloud.c4 {
+  animation-name: earth-rotation-cle-start, earth-rotation-cle-loop;
+  animation-duration: 10000ms, var(--cloud-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 10000ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.cloud.c5, .cloud.c6 {
+  animation-name: earth-rotation-cla-start, earth-rotation-cla-loop;
+  animation-duration: 20000ms, var(--cloud-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 20000ms;
+  animation-iteration-count: 1, infinite;
+}
+
+.cloud.c7, .cloud.c8 {
+  animation-name: earth-rotation-cle-start, earth-rotation-cle-loop;
+  animation-duration: 10000ms, var(--cloud-rotation);
+  animation-timing-function: linear;
+  animation-delay: 0s, 10000ms;
+  animation-iteration-count: 1, infinite;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               TITLE CATEGORY                               */
+/* -------------------------------------------------------------------------- */
+
+.category{
+  position: relative;
+  top: -20px;
+  width: 80%;
+  height: 20px;
+  border: 4px solid #DEE1C5;
+  background-color: #FFFDF2;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  margin: 5px auto;
+  text-align: center;
+  vertical-align: center;
+  padding-top: 3px;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                EXPAND TOGGLE                               */
+/* -------------------------------------------------------------------------- */
+.expandToggle > svg{
+  position: relative;
+  left: 50%;
+  top: -20px;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+}
+.expandToggle > svg #triangle{
+    fill:#484848;
+    stroke: #202020;
+    stroke-width: 1;
+}
+
+body.light .expandToggle > svg #triangle{
+  fill:#C0E6F6;
+  stroke: #81C0D5;
+  stroke-width: 1;
+}
+
+#triangle{
+  transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -webkit-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -moz-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -ms-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  -o-transition: all 1s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  CUSTOMIZE                                 */
+/* -------------------------------------------------------------------------- */
+
+.customizer{
+  /*position: relative;
+  top: 0;
+  left: 0;
+  */display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  overflow: auto;
+  height: 100%;
+  max-height: 100%;
+  /* border: 2px solid black; */
+  border-radius: 40px;
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
+
+  nav{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+    & > span{
+      padding: 10px;
+    }
+  }
+
+  div{
+  width: 40px;
+  height: 40px;
+  border: 4px solid black;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  }
+}
+
+
+@each $color-name, $color in $calculator-colors{
+  #calculator-colors .#{$color-name}, #backlit-colors.#{$color-name}{
+    background-color: $color;
+  }
+}
+@each $color-name, $color in $backlit-colors{
+  .backlit.#{$color-name}{
+    background-color: $color;
+  }
+}
+#keycapType{
+  box-sizing: border-box;
+  border: none;
+  display: flex;
+  width: 90px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+
+  #raised, #flat{
+    background:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #raised{
+    border-radius: 0 50% 50% 0;
+    -webkit-border-radius: 0 50% 50% 0;
+    -moz-border-radius: 0 50% 50% 0;
+    -ms-border-radius: 0 50% 50% 0;
+    -o-border-radius: 0 50% 50% 0;
+    span{
+      border-bottom: 10px solid black;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      height: 0;
+      width: 15px;
+      display: block;
+    }
+  }
+  #flat{
+    border-radius: 50% 0 0 50%;
+    -webkit-border-radius: 50% 0 0 50%;
+    -moz-border-radius: 50% 0 0 50%;
+    -ms-border-radius: 50% 0 0 50%;
+    -o-border-radius: 50% 0 0 50%;
+    span{
+      border-bottom: 5px solid black;
+      border-left: 2px solid transparent;
+      border-right: 2px solid transparent;
+      height: 0;
+      width: 15px;
+      display: block;
+    }
+  }
+}
+
+#mascots svg{
+  width: 40px !important;
+  height: 40px !important;
+}
+button svg{
+  width: 80px;
+  height: 80px;
+  margin-top: 6.5px;
+}
+#mascots svg path:nth-child(2) {
+  fill: black;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              RESET CUSTOMIZER                              */
+/* -------------------------------------------------------------------------- */
+.customizer .reset {
+  position: relative;
+  background-color: black;
+  background: white;
+  border-color: red;
+  /* background: linear-gradient(60deg, transparent 0%, transparent 45%, black 45%, black 54.5%, transparent 54.5%, transparent 100%); */
+}
+.reset::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  width: 5px;
+  height: 46px;
+  background: red;
+  transform: rotate(-45deg);
+  transform-origin: top left;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+}
+
