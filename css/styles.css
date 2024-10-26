@@ -77,20 +77,24 @@ hr {
 a {
   text-decoration: none;
   color: white;
+  fill: white;
 }
 
 body.light a {
   color: black;
+  fill: black;
 }
 
 footer {
   text-align: center;
   margin: 1% 0;
   color: white;
+  fill: white;
 }
 
 body.light footer {
   color: black;
+  fill: black;
 }
 
 /******************************************
